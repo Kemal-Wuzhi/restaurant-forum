@@ -143,10 +143,14 @@ const restaurantController = {
     return Restaurant.findAll({
       include: [{
         model: User,
-        as: 'FavoritedUsers'
-      }]
+        as: 'FavoritedUsers',
+        order: [
+          ['FavoritedUsers', 'DESC']
+        ]
+      }],
       // 限制 10 筆
-      // limit: 10
+      limit: 10
+
     })
       .then(restaurants => {
         // 篩選出被使用者收藏的餐廳後，要計算收藏的數量，同時也要依照收藏的數量來為這些餐廳排名
@@ -162,7 +166,6 @@ const restaurantController = {
         }))
         // 排序 sort
         restaurants.sort((a, b) => b.favoritedCount - a.favoritedCount)
-        restaurants = restaurants.slice(0, 10)
         res.render('top-restaurants', {
           restaurants
         })
