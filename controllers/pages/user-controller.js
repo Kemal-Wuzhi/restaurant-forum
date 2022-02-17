@@ -1,6 +1,15 @@
 const bcrypt = require('bcryptjs')
-const { imgurFileHandler } = require('../helpers/file-helpers')
-const { User, Restaurant, Comment, Favorite, Like, Followship } = require('../models')
+const {
+  imgurFileHandler
+} = require('../../helpers/file-helpers')
+const {
+  User,
+  Restaurant,
+  Comment,
+  Favorite,
+  Like,
+  Followship
+} = require('../../models')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -45,7 +54,8 @@ const userController = {
   getUser: (req, res, next) => {
     return User.findByPk(req.params.id, {
       include: [{
-        model: Comment, include: Restaurant
+        model: Comment,
+        include: Restaurant
       }]
     })
       .then(user => {
@@ -103,7 +113,9 @@ const userController = {
       .catch(err => next(err))
   },
   addFavorite: (req, res, next) => {
-    const { restaurantId } = req.params
+    const {
+      restaurantId
+    } = req.params
     return Promise.all([
       Restaurant.findByPk(restaurantId),
       Favorite.findOne({
@@ -139,7 +151,9 @@ const userController = {
       .catch(err => next(err))
   },
   addLike: (req, res, next) => {
-    const { restaurantId } = req.params
+    const {
+      restaurantId
+    } = req.params
     return Promise.all([
       Restaurant.findByPk(restaurantId),
       Like.findOne({
@@ -178,7 +192,10 @@ const userController = {
   getTopUsers: (req, res, next) => {
     return User.findAll({
       // Followers => 有多少個 follower
-      include: [{ model: User, as: 'Followers' }]
+      include: [{
+        model: User,
+        as: 'Followers'
+      }]
     })
       .then(users => {
         const result = users.map(user => ({
@@ -188,12 +205,16 @@ const userController = {
         }))
         // 由大到小排序
         users = users.sort((a, b) => b.followerCount - a.followerCount)
-        res.render('top-users', { users: result })
+        res.render('top-users', {
+          users: result
+        })
       })
       .catch(err => next(err))
   },
   addFollowing: (req, res, next) => {
-    const { userId } = req.params
+    const {
+      userId
+    } = req.params
     Promise.all([
       User.findByPk(userId),
       Followship.findOne({

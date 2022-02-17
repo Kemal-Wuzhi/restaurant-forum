@@ -2,11 +2,11 @@ const {
   Restaurant,
   User,
   Category
-} = require('../models')
+} = require('../../models')
 
 const {
   imgurFileHandler
-} = require('../helpers/file-helpers')
+} = require('../../helpers/file-helpers')
 const adminController = {
   getRestaurants: (req, res, next) => {
     return Restaurant.findAll({

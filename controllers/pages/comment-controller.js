@@ -2,7 +2,7 @@ const {
   Comment,
   User,
   Restaurant
-} = require('../models')
+} = require('../../models')
 const commentController = {
   postComment: (req, res, next) => {
     const {

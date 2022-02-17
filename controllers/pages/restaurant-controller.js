@@ -3,11 +3,11 @@ const {
   Category,
   Comment,
   User
-} = require('../models')
+} = require('../../models')
 const {
   getOffset,
   getPagination
-} = require('../helpers/pagination-helper')
+} = require('../../helpers/pagination-helper')
 const restaurantController = {
   getRestaurants: (req, res, next) => {
     const DEFAULT_LIMIT = 9 // 每頁顯示9間餐廳
@@ -60,7 +60,7 @@ const restaurantController = {
       Category,
       Comment,
       User
-    } = require('../models')
+    } = require('../../models')
     return Restaurant.findByPk(req.params.id, {
       include: [Category,
         {

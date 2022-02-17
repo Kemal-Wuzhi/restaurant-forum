@@ -1,6 +1,6 @@
 const {
   Category
-} = require('../models')
+} = require('../../models')
 const categoryController = {
   getCategories: (req, res, next) => {
     // 修改以下

@@ -9,7 +9,9 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const {
   getUser
 } = require('./helpers/auth-helpers')
-const routes = require('./routes')
+const {
+  pages, apis
+} = require('./routes')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -48,7 +50,8 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(routes)
+app.use('/api', apis)
+app.use(pages)
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`)
