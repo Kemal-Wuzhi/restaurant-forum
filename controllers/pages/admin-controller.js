@@ -3,25 +3,23 @@ const {
   User,
   Category
 } = require('../../models')
+const adminServices = require('../../services/admin-services')
 
 const {
   imgurFileHandler
 } = require('../../helpers/file-helpers')
 const adminController = {
+  // 只控制流程，要傳到哪裡去
   getRestaurants: (req, res, next) => {
-    return Restaurant.findAll({
-      raw: true,
-      nest: true,
-      include: [Category]
-    })
-      .then(restaurants => res.render('admin/restaurants', {
-        restaurants
-      }))
-      .catch(err => next(err))
+    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', data))
   },
   createRestaurant: (req, res, next) => {
-    return Category.findAll({ raw: true })
-      .then(categories => res.render('admin/create-restaurant', { categories }))
+    return Category.findAll({
+      raw: true
+    })
+      .then(categories => res.render('admin/create-restaurant', {
+        categories
+      }))
       .catch(err => next(err))
   },
   postRestaurant: (req, res, next) => {
@@ -72,12 +70,19 @@ const adminController = {
   },
   editRestaurant: (req, res, next) => {
     return Promise.all([
-      Restaurant.findByPk(req.params.id, { raw: true }),
-      Category.findAll({ raw: true })
+      Restaurant.findByPk(req.params.id, {
+        raw: true
+      }),
+      Category.findAll({
+        raw: true
+      })
     ])
       .then(([restaurant, categories]) => {
         if (!restaurant) throw new Error("Restaurant doesn't exist!")
-        res.render('admin/edit-restaurant', { restaurant, categories })
+        res.render('admin/edit-restaurant', {
+          restaurant,
+          categories
+        })
       })
       .catch(err => next(err))
   },
