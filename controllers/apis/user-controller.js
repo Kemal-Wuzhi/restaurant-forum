@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const userServices = require('../../services/user-services')
 
 const userController = {
   signIn: (req, res, next) => {
@@ -18,6 +19,13 @@ const userController = {
     } catch (err) {
       next(err)
     }
+  },
+  signUp: (req, res, next) => {
+    userServices.signUp(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', '成功註冊帳號！')
+      res.redirect('/signin', data)
+    })
   }
 }
 
