@@ -19,7 +19,7 @@ const adminServices = {
       })
       .catch(err => callback(err))
   },
-  postRestaurant: (req, callback) => {
+  postRestaurant: (req, cb) => {
     const {
       name,
       tel,
@@ -28,14 +28,13 @@ const adminServices = {
       description,
       categoryId
     } = req.body
-
     if (!name) throw new Error('Restaurant name is required!')
 
     const {
       file
     } = req
 
-    return imgurFileHandler(file)
+    imgurFileHandler(file)
       .then(filePath => Restaurant.create({
         name,
         tel,
@@ -45,9 +44,10 @@ const adminServices = {
         image: filePath || null,
         categoryId
       }))
-      .then(newRestaurant => callback(null, { restaurant: newRestaurant })
-      )
-      .catch(err => callback(err))
+      .then(newRestaurant => cb(null, {
+        restaurant: newRestaurant
+      }))
+      .catch(err => cb(err))
   },
 
   deleteRestaurant: (req, callback) => {
