@@ -15,11 +15,14 @@ const userServices = {
 
         return bcrypt.hash(req.body.password, 10)
       })
-      .then(hash => callback(null, User.create({
+      .then(hash => User.create({
         name: req.body.name,
         email: req.body.email,
         password: hash
-      })))
+      }))
+      .then(user => {
+        return callback(null, user)
+      })
 
       .catch(err => callback(err))
   }

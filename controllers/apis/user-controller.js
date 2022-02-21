@@ -24,7 +24,10 @@ const userController = {
     userServices.signUp(req, (err, data) => {
       if (err) return next(err)
       req.flash('success_messages', '成功註冊帳號！')
-      res.redirect('/signin', data)
+      res.json({
+        status: 'success',
+        data: data
+      })
     })
   }
 }
