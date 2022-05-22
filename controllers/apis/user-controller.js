@@ -28,6 +28,7 @@ const userController = {
         status: 'success',
         data: data
       })
+      console.log('whatiscb', data)
     })
   }
 }
